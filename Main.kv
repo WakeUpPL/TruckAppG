@@ -3,17 +3,26 @@ MDScreen:
     name: "main"
     MDFloatLayout:
         md_bg_color: 1, 1, 1, 1
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            text_color: rgba(26, 24, 58, 255)
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "start"
         Image:
             source: "images.jpeg"
             size_hint: .8, .5
-            pos_hint: {"center_x": .5, "center_y": .8}
+            pos_hint: {"center_x": .5, "center_y": .7}
         MDLabel:
-            text: "Hello"
+            text: "Please, enter truck number!"
             font_size: "35sp"
-            pos_hint: {"center_x": .5, "center_y": .58}
+            pos_hint: {"center_x": .5, "center_y": .38}
             halign: "center"
             theme_text_color: "Custom"
-            text_color: 53/255, 56/255, 60/255, 1
+            text_color: 49/255, 0/255, 229/255, 1
         MDFloatLayout:
             size_hint: .85, .08
             pos_hint: {"center_x": .5, "center_y": .22}
@@ -26,14 +35,14 @@ MDScreen:
                     radius: [33, 33, 33, 33]
             TextInput:
                 id: bot_name
-                hint_text: "Number"
+                hint_text: "Hear..."
                 size_hint: 1, None
                 pos_hint: {"center_x": .5, "center_y": .5}
                 font_size: "18sp"
                 height: self.minimum_height
-                cursor_color: 1, 170/255, 23/255, 1
+                cursor_color: 49/255, 0/255, 229/255, 1
                 cursor_width: "2sp"
-                foreground_color: 1, 170/255, 23/255, 1
+                foreground_color: 49/255, 0/255, 229/255, 1
                 background_color: 0, 0, 0, 0
                 padding: 15
         MDFloatLayout:
@@ -41,7 +50,7 @@ MDScreen:
             pos_hint: {"center_x": .5, "center_y": .1}
             canvas:
                 Color:
-                    rgb: (1, 170/255, 23/255, 1)
+                    rgb: (49/255, 0/255, 229/255, 1)
                 RoundedRectangle:
                     size: self.size
                     pos: self.pos

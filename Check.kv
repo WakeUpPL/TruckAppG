@@ -1,0 +1,138 @@
+MDScreen:
+    gat_text: gat_text
+    bot_name: bot_name
+    chip_1: chip_1
+    chip_2: chip_2
+    chip_3: chip_3
+    chip_4: chip_4
+    submit_button: submit_button
+    name: "check"
+    MDFloatLayout:
+        MDFloatLayout:
+            md_bg_color: 0, 0, 0, 0
+            size_hint_y: .11
+            pos_hint: {"center_y": .95}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [34, 34, 34, 34]
+            MDLabel:
+                id: bot_name
+                text: ""
+                pos_hint: {"center_y": .5}
+                halign: "center"
+                font_size: "25sp"
+                theme_text_color: "Custom"
+                text_color: 49/255, 0/255, 229/255, 1
+        MDFloatLayout:
+            md_bg_color: 0, 0, 0, 0
+            size_hint_x: .30
+            size_hint_y: .20
+            pos_hint: {"center_x": .50, "center_y": .75}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [34, 34, 34, 34]
+            MDLabel:
+                id: gat_text
+                text: ""
+                pos_hint: {"center_x": .50, "center_y": .50}
+                halign: "center"
+                font_size: "72sp"
+                theme_text_color: "Custom"
+                text_color: 0, 0, 0, 1
+        MDLabel:
+            text: "GAT"
+            pos_hint: {"center_y": .87}
+            halign: "center"
+            font_size: "28sp"
+            theme_text_color: "Custom"
+            text_color: 0, 0, 0, 1
+        MDFloatLayout:
+            md_bg_color: 0, 0, 0, 0
+            size_hint: .95, .53
+            pos_hint: {"center_x": .50, "center_y": .37}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [44, 44, 44, 44]
+        MDChip:
+            id: chip_1
+            text: 'Check 1'
+            on_release: app.chip_callback(1)
+            theme_text_color: "Custom"
+            text_color: [0, 0, 0, 1]  # Чорний колір тексту
+            size_hint: .50, .09 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.57}  # Вирівнювання по центру
+        MDChip:
+            id: chip_2
+            text: 'Check 2'
+            on_release: app.chip_callback(2)
+            theme_text_color: "Custom"
+            text_color: [0, 0, 0, 1]  # Чорний колір тексту
+            size_hint: .50, .09 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.47}  # Вирівнювання по центру
+        MDChip:
+            id: chip_3
+            text: 'Check 3'
+            on_release: app.chip_callback(3)
+            theme_text_color: "Custom"
+            text_color: [0, 0, 0, 1]  # Чорний колір тексту
+            size_hint: .50, .09 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.37}  # Вирівнювання по центру
+        MDChip:
+            id: chip_4
+            text: 'Check 4'
+            on_release: app.chip_callback(4)
+            theme_text_color: "Custom"
+            text_color: [0, 0, 0, 1]  # Чорний колір тексту
+            size_hint: .50, .09 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.27}  # Вирівнювання по центру
+        MDRaisedButton:
+            id: submit_button
+            text: 'Submit'
+            size_hint: .50, .09 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.17}  # Вирівнювання по центру
+            on_release: app.submit_values()
+
+        MDFloatLayout:
+            md_bg_color: 245/255, 245/255, 245/255, 1
+            size_hint_y: .11
+            MDFloatLayout:
+                size_hint: .8, .75
+                pos_hint: {"center_x": .43, "center_y": .5}
+                canvas:
+                    Color:
+                        rgb: (238/255, 238/255, 238/255, 1)
+                    RoundedRectangle:
+                        size: self.size
+                        pos: self.pos
+                        radius: [44, 44, 44, 44]
+            MDLabel:
+                text:"Chat with Administration:"
+                id: text_input
+                pos_hint: {"center_x": .6, "center_y": .5}
+                font_size: "18sp"
+                padding: 15
+            MDIconButton:
+                icon: "send"
+                pos_hint: {"center_x": .91, "center_y": .5}
+                user_font_sie: "18sp"
+                theme_text_color: "Custom"
+                text_color: 1, 1, 1, 1
+                md_bg_color: 49/255, 0/255, 229/255, 1
+                on_release:
+                    root.manager.transition.direction = "left"
+                    root.manager.current = "chats"
+
+            
+                

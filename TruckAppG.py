@@ -1,5 +1,7 @@
 from kivy.clock import Clock
 from kivymd.app import MDApp
+from kivymd.uix.chip import MDChip
+from kivymd.uix.button import MDRaisedButton
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager
@@ -53,6 +55,7 @@ class TruckAppG(MDApp):
         self.receive_thread.start()
 
         # Schedule interval for updating the UI
+        Clock.schedule_interval(self.gat_text, 1)
         Clock.schedule_interval(self.response, 1)
 
     def autoscroll(self):
@@ -66,17 +69,62 @@ class TruckAppG(MDApp):
         global screen_manager
         Window.bind(on_request_close=self.on_close)
         screen_manager = ScreenManager()
+        screen_manager.add_widget(Builder.load_file("Start.kv"))
         screen_manager.add_widget(Builder.load_file("Main.kv"))
+        screen_manager.add_widget(Builder.load_file("Check.kv"))
         screen_manager.add_widget(Builder.load_file("Chats.kv"))
         return screen_manager
+    
+    def chip_callback(self, chip_number):
+        screen_check = screen_manager.get_screen('check')
+        chip_attribute_name = f"chip_{chip_number}"
         
+        if hasattr(screen_check, chip_attribute_name):
+            chip = getattr(screen_check, chip_attribute_name)
+            chip.active = not chip.active
+        else:
+            pass
+
+    def submit_values(self):
+        chip_values = []
+        for chip_number in range(1, 5):
+            chip_attribute_name = f'chip_{chip_number}'
+            screen_check = screen_manager.get_screen('check')
+
+            if hasattr(screen_check, chip_attribute_name):
+                chip = getattr(screen_check, chip_attribute_name)
+                chip_values.append((f'Check {chip_number}', chip.active))
+            else:
+                print(f"Attribute {chip_attribute_name} not found.")
+        
+        encoded_chip_values = str(chip_values).encode('utf-8')
+        self.client.send(encoded_chip_values)
+
+        submit_button = screen_manager.get_screen('check').submit_button  # припускається, що submit_button - це ідентифікатор вашої кнопки
+        submit_button.disabled = True
+        screen_manager.get_screen('check').chip_1.disabled = True
+        screen_manager.get_screen('check').chip_2.disabled = True
+        screen_manager.get_screen('check').chip_3.disabled = True
+        screen_manager.get_screen('check').chip_4.disabled = True
+    
+    def gat_text(self, *args):
+        global gat_dock
+                # Update the UI on the main thread
+        new_message = getattr(self.root, 'new_message', None)
+        if new_message:
+            # Extract the content after "@admin:" using regular expression
+            match = re.search(r'@admin: GAT\s*(.*)', new_message)
+            if match:
+                gat_dock = match.group(1).strip()
+                screen_manager.get_screen('check').gat_text.text = gat_dock
     
     def bot_name(self):
         global driver
         if screen_manager.get_screen('main').bot_name.text != "":
             driver = screen_manager.get_screen('main').bot_name.text
-            screen_manager.get_screen('chats').bot_name.text = driver 
-            screen_manager.current = "chats"
+            screen_manager.get_screen('chats').bot_name.text = driver
+            screen_manager.get_screen('check').bot_name.text = driver 
+            screen_manager.current = "check"
             try:
                 self.client.send(driver.encode('utf-8'))
             except Exception as e:
@@ -103,7 +151,7 @@ class TruckAppG(MDApp):
             match = re.search(r'@admin:\s*(.*)', new_message)
             if match:
                 username_content = match.group(1).strip()
-                screen_manager.get_screen('chats').chat_list.add_widget(Response(text=username_content, size_hint_x=.75))
+                screen_manager.get_screen('chats').chat_list.add_widget(Response(text=username_content, size_hint_x=.50))
                 self.autoscroll()
             setattr(self.root, 'new_message', '')  # Clear the new message attribute
 

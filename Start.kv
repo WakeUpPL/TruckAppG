@@ -1,0 +1,85 @@
+MDScreen:
+    name: "start"
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        Image:
+            source: "images.jpeg"
+            size_hint: .8, .5
+            pos_hint: {"center_x": .5, "center_y": .7}
+        MDLabel:
+            text: "Select lang"
+            font_size: "35sp"
+            pos_hint: {"center_x": .5, "center_y": .38}
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: 49/255, 0/255, 229/255, 1
+        MDFloatLayout:
+            size_hint: .45, .08
+            pos_hint: {"center_x": .5, "center_y": .1}
+            canvas:
+                Color:
+                    rgb: (49/255, 0/255, 229/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [33, 33, 33, 33]
+        Button:
+            text: "Next"
+            size_hint: .45, .08
+            pos_hint: {"center_x": .5, "center_y": .1}
+            background_color: 0, 0, 0, 0
+            on_release:
+                root.manager.transition.direction = "left"
+                root.manager.current = "main"
+        MDFloatLayout:
+            size_hint: .25, .07
+            pos_hint: {"center_x": .2, "center_y": .25}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [33, 33, 33, 33]
+            MDIcon:
+                icon: "alphabet-latin"
+                pos_hint: {"center_x": .2, "center_y": .5}
+            MDLabel:
+                text: "FR"
+                font_size: "14sp"
+                pos_hint: {"center_x": .99, "center_y": .5}
+        MDFloatLayout:
+            size_hint: .25, .07
+            pos_hint: {"center_x": .5, "center_y": .25}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [33, 33, 33, 33]
+            MDIcon:
+                icon: "alphabet-latin"
+                pos_hint: {"center_x": .2, "center_y": .5}
+            MDLabel:
+                text: "DE"
+                font_size: "14sp"
+                pos_hint: {"center_x": .99, "center_y": .5}
+        MDFloatLayout:
+            size_hint: .25, .07
+            pos_hint: {"center_x": .8, "center_y": .25}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [33, 33, 33, 33]
+            MDIcon:
+                icon: "alphabet-cyrillic"
+                pos_hint: {"center_x": .2, "center_y": .5}
+            MDLabel:
+                text: "UA"
+                font_size: "14sp"
+                pos_hint: {"center_x": .99, "center_y": .5}
+
