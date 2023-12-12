@@ -7,8 +7,8 @@ MDScreen:
             size_hint: .8, .5
             pos_hint: {"center_x": .5, "center_y": .7}
         MDLabel:
-            text: "Select lang"
-            font_size: "35sp"
+            text: "Select language"
+            font_size: "30sp"
             pos_hint: {"center_x": .5, "center_y": .38}
             halign: "center"
             theme_text_color: "Custom"
@@ -41,13 +41,12 @@ MDScreen:
                     size: self.size
                     pos: self.pos
                     radius: [33, 33, 33, 33]
-            MDIcon:
-                icon: "alphabet-latin"
-                pos_hint: {"center_x": .2, "center_y": .5}
-            MDLabel:
-                text: "FR"
-                font_size: "14sp"
-                pos_hint: {"center_x": .99, "center_y": .5}
+        MDRoundFlatIconButton:
+            size_hint: .25, .07
+            pos_hint: {"center_x": .2, "center_y": .25}
+            text: "DE"
+            icon: "alphabet-latin"
+            text_color: 49/255, 0/255, 229/255, 1
         MDFloatLayout:
             size_hint: .25, .07
             pos_hint: {"center_x": .5, "center_y": .25}
@@ -58,13 +57,12 @@ MDScreen:
                     size: self.size
                     pos: self.pos
                     radius: [33, 33, 33, 33]
-            MDIcon:
-                icon: "alphabet-latin"
-                pos_hint: {"center_x": .2, "center_y": .5}
-            MDLabel:
-                text: "DE"
-                font_size: "14sp"
-                pos_hint: {"center_x": .99, "center_y": .5}
+        MDRoundFlatIconButton:
+            size_hint: .25, .07
+            pos_hint: {"center_x": .5, "center_y": .25}
+            text: "FR"
+            icon: "alphabet-latin"
+            text_color: 49/255, 0/255, 229/255, 1
         MDFloatLayout:
             size_hint: .25, .07
             pos_hint: {"center_x": .8, "center_y": .25}
@@ -75,11 +73,10 @@ MDScreen:
                     size: self.size
                     pos: self.pos
                     radius: [33, 33, 33, 33]
-            MDIcon:
-                icon: "alphabet-cyrillic"
-                pos_hint: {"center_x": .2, "center_y": .5}
-            MDLabel:
-                text: "UA"
-                font_size: "14sp"
-                pos_hint: {"center_x": .99, "center_y": .5}
+        MDRoundFlatIconButton:
+            size_hint: .25, .07
+            pos_hint: {"center_x": .8, "center_y": .25}
+            text: "UA"
+            icon: "alphabet-latin"
+            text_color: 49/255, 0/255, 229/255, 1
 
