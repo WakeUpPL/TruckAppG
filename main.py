@@ -13,10 +13,6 @@ import re
 import socket
 import threading
 
-Window.size = (350, 550)
-
-#client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
 class Command(MDLabel):
     text = StringProperty()
     size_hint_x = NumericProperty()
@@ -41,7 +37,7 @@ class TruckAppG(MDApp):
         screen_manager.current = name 
     
     def on_start(self):
-        host = '127.0.0.1'
+        host = '91.207.60.55'
         port = 5555
 
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
