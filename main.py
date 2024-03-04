@@ -37,7 +37,7 @@ class TruckAppG(MDApp):
         screen_manager.current = name 
     
     def on_start(self):
-        host = '91.207.60.55'
+        host = 'localhost'
         port = 5555
 
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -83,7 +83,7 @@ class TruckAppG(MDApp):
 
     def submit_values(self):
         chip_values = []
-        for chip_number in range(1, 5):
+        for chip_number in range(1, 6):
             chip_attribute_name = f'chip_{chip_number}'
             screen_check = screen_manager.get_screen('check')
 
@@ -102,6 +102,7 @@ class TruckAppG(MDApp):
         screen_manager.get_screen('check').chip_2.disabled = True
         screen_manager.get_screen('check').chip_3.disabled = True
         screen_manager.get_screen('check').chip_4.disabled = True
+        screen_manager.get_screen('check').chip_5.disabled = True
     
     def gat_text(self, *args):
         global gat_dock
@@ -135,6 +136,7 @@ class TruckAppG(MDApp):
                     break
                 message = data.decode('utf-8')
                 self.root.new_message = message  # Set the new message in the UI
+                self.autoscroll()
             except Exception as e:
                 print(f"Error receiving messages: {e}")
                 break
@@ -147,8 +149,7 @@ class TruckAppG(MDApp):
             match = re.search(r'@admin:\s*(.*)', new_message)
             if match:
                 username_content = match.group(1).strip()
-                screen_manager.get_screen('chats').chat_list.add_widget(Response(text=username_content, size_hint_x=.50))
-                self.autoscroll()
+                screen_manager.get_screen('chats').chat_list.add_widget(Response(text=username_content, size_hint_x=.50))    
             setattr(self.root, 'new_message', '')  # Clear the new message attribute
 
         #screen_manager.get_screen('chats').chat_list.add_widget(Response(text=response, size_hint_x=.75))

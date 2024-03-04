@@ -5,6 +5,7 @@ MDScreen:
     chip_2: chip_2
     chip_3: chip_3
     chip_4: chip_4
+    chip_5: chip_5
     submit_button: submit_button
     name: "check"
     MDFloatLayout:
@@ -67,41 +68,49 @@ MDScreen:
                     radius: [44, 44, 44, 44]
         MDChip:
             id: chip_1
-            text: 'Check 1'
+            text: 'Auto pod rampą'
             on_release: app.chip_callback(1)
             theme_text_color: "Custom"
             text_color: [0, 0, 0, 1]  # Чорний колір тексту
-            size_hint: .50, .09 
-            pos_hint: {'center_x': 0.5, 'center_y': 0.57}  # Вирівнювання по центру
+            size_hint: .50, .07 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.58}  # Вирівнювання по центру
         MDChip:
             id: chip_2
-            text: 'Check 2'
+            text: 'Silnik zgaszony'
             on_release: app.chip_callback(2)
             theme_text_color: "Custom"
             text_color: [0, 0, 0, 1]  # Чорний колір тексту
-            size_hint: .50, .09 
-            pos_hint: {'center_x': 0.5, 'center_y': 0.47}  # Вирівнювання по центру
+            size_hint: .50, .07 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.50}  # Вирівнювання по центру
         MDChip:
             id: chip_3
-            text: 'Check 3'
+            text: 'Klin pod kołem'
             on_release: app.chip_callback(3)
             theme_text_color: "Custom"
             text_color: [0, 0, 0, 1]  # Чорний колір тексту
-            size_hint: .50, .09 
-            pos_hint: {'center_x': 0.5, 'center_y': 0.37}  # Вирівнювання по центру
+            size_hint: .50, .07 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.42}  # Вирівнювання по центру
         MDChip:
             id: chip_4
-            text: 'Check 4'
+            text: 'Podniesienie naczepy'
             on_release: app.chip_callback(4)
             theme_text_color: "Custom"
             text_color: [0, 0, 0, 1]  # Чорний колір тексту
-            size_hint: .50, .09 
-            pos_hint: {'center_x': 0.5, 'center_y': 0.27}  # Вирівнювання по центру
+            size_hint: .50, .07 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.34}  # Вирівнювання по центру
+        MDChip:
+            id: chip_5
+            text: 'Linka celna (opcjonalne) '
+            on_release: app.chip_callback(5)
+            theme_text_color: "Custom"
+            text_color: [0, 0, 0, 1]  # Чорний колір тексту
+            size_hint: .50, .07 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.26}  # Вирівнювання по центру
         MDRaisedButton:
             id: submit_button
             text: 'Submit'
-            size_hint: .50, .09 
-            pos_hint: {'center_x': 0.5, 'center_y': 0.17}  # Вирівнювання по центру
+            size_hint: .50, .07 
+            pos_hint: {'center_x': 0.5, 'center_y': 0.16}  # Вирівнювання по центру
             on_release: app.submit_values()
 
         MDFloatLayout:
