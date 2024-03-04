@@ -111,7 +111,10 @@ MDScreen:
             text: 'Submit'
             size_hint: .50, .07 
             pos_hint: {'center_x': 0.5, 'center_y': 0.16}  # Вирівнювання по центру
-            on_release: app.submit_values()
+            on_release: 
+                app.submit_values()
+                root.manager.transition.direction = "left"
+                root.manager.current = "camera"
 
         MDFloatLayout:
             md_bg_color: 245/255, 245/255, 245/255, 1

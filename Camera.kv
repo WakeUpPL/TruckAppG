@@ -1,0 +1,40 @@
+CameraScreen:
+    camera: camera
+    capture: capture
+    bot_name: bot_name
+    name: "camera"
+    MDFloatLayout:
+        MDFloatLayout:
+            md_bg_color: 0, 0, 0, 0
+            size_hint_y: .11
+            pos_hint: {"center_y": .95}
+            canvas:
+                Color:
+                    rgb: (238/255, 238/255, 238/255, 1)
+                RoundedRectangle:
+                    size: self.size
+                    pos: self.pos
+                    radius: [34, 34, 34, 34]
+            MDLabel:
+                id: bot_name
+                text: ""
+                pos_hint: {"center_y": .5}
+                halign: "center"
+                font_size: "25sp"
+                theme_text_color: "Custom"
+                text_color: 49/255, 0/255, 229/255, 1
+        Camera:
+            id: camera
+            resolution: (900, 768)
+            play: True
+        MDRaisedButton:
+            id: capture
+            text: "capture"
+            size_hint_y: .10
+            size_hint_x: .15
+            pos_hint: {"center_x": .5, "center_y": .07}
+            on_release: 
+                root.take_picture()
+                root.manager.transition.direction = "right"
+                root.manager.current = "check"
+  

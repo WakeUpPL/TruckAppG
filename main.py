@@ -4,14 +4,26 @@ from kivymd.uix.chip import MDChip
 from kivymd.uix.button import MDRaisedButton
 from kivy.lang import Builder
 from kivy.core.window import Window
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.text import LabelBase
 from kivymd.uix.label import MDLabel
 from kivy.properties import StringProperty, NumericProperty
+from kivy.uix.camera import Camera
+from kivy.uix.image import Image
+from kivy.uix.screenmanager import Screen
 
+
+
+import time
 import re
 import socket
 import threading
+
+class CameraScreen(Screen):
+    def take_picture(self):
+        camera = self.ids.camera
+        timenow = time.strftime("%Y%m%d_%H%M%S")
+        camera.export_to_png(f"IMG_{timenow}.png")
 
 class Command(MDLabel):
     text = StringProperty()
@@ -30,9 +42,9 @@ class MDScreen(MDLabel):
     def __init__(self):
         super(MDScreen, self).__init__()
     
-
+        
 class TruckAppG(MDApp):
-
+    
     def change_screen(self, name):
         screen_manager.current = name 
     
@@ -53,13 +65,12 @@ class TruckAppG(MDApp):
         # Schedule interval for updating the UI
         Clock.schedule_interval(self.gat_text, 1)
         Clock.schedule_interval(self.response, 1)
+    
 
     def autoscroll(self):
-
         scroll_distance = 100
         scroling = screen_manager.get_screen('chats').scroll_view
         scroling.scroll_y = max(0, scroling.scroll_y - scroll_distance)
-
 
     def build(self):
         global screen_manager
@@ -69,6 +80,7 @@ class TruckAppG(MDApp):
         screen_manager.add_widget(Builder.load_file("Main.kv"))
         screen_manager.add_widget(Builder.load_file("Check.kv"))
         screen_manager.add_widget(Builder.load_file("Chats.kv"))
+        screen_manager.add_widget(Builder.load_file("Camera.kv"))
         return screen_manager
     
     def chip_callback(self, chip_number):
@@ -96,14 +108,12 @@ class TruckAppG(MDApp):
         encoded_chip_values = str(chip_values).encode('utf-8')
         self.client.send(encoded_chip_values)
 
-        submit_button = screen_manager.get_screen('check').submit_button  # припускається, що submit_button - це ідентифікатор вашої кнопки
+        submit_button = screen_manager.get_screen('check').submit_button
         submit_button.disabled = True
-        screen_manager.get_screen('check').chip_1.disabled = True
-        screen_manager.get_screen('check').chip_2.disabled = True
-        screen_manager.get_screen('check').chip_3.disabled = True
-        screen_manager.get_screen('check').chip_4.disabled = True
-        screen_manager.get_screen('check').chip_5.disabled = True
-    
+        for i in range(1, 6):
+            chip = getattr(screen_manager.get_screen('check'), f'chip_{i}')
+            chip.disabled = True
+
     def gat_text(self, *args):
         global gat_dock
                 # Update the UI on the main thread
@@ -120,7 +130,8 @@ class TruckAppG(MDApp):
         if screen_manager.get_screen('main').bot_name.text != "":
             driver = screen_manager.get_screen('main').bot_name.text
             screen_manager.get_screen('chats').bot_name.text = driver
-            screen_manager.get_screen('check').bot_name.text = driver 
+            screen_manager.get_screen('check').bot_name.text = driver
+            screen_manager.get_screen('camera').bot_name.text = driver 
             screen_manager.current = "check"
             try:
                 self.client.send(driver.encode('utf-8'))
@@ -152,8 +163,6 @@ class TruckAppG(MDApp):
                 screen_manager.get_screen('chats').chat_list.add_widget(Response(text=username_content, size_hint_x=.50))    
             setattr(self.root, 'new_message', '')  # Clear the new message attribute
 
-        #screen_manager.get_screen('chats').chat_list.add_widget(Response(text=response, size_hint_x=.75))
-
     def send(self):
         global size, halign, values
         if screen_manager.get_screen('chats').text_input != "":
@@ -178,7 +187,6 @@ class TruckAppG(MDApp):
                 halign = "left"
                 
             screen_manager.get_screen('chats').chat_list.add_widget(Command(text=values, size_hint_x=size, halign=halign))
-            #Clock.schedule_once(self.response, 1)
             screen_manager.get_screen('chats').text_input.text = ""
             self.autoscroll()
             try:
@@ -193,7 +201,7 @@ class TruckAppG(MDApp):
 
     def on_close(self, *args):
         self.close_app()
-        return True  # Prevent the default behavior (app exit)    
+        return True  # Prevent the default behavior (app exit)   
 
 if __name__ == '__main__':
     TruckAppG().run()
