@@ -11,8 +11,10 @@ from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.camera import Camera
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
-
-
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
+from kivy.clock import mainthread
+from kivy.core.audio import SoundLoader
 
 import time
 import re
@@ -41,12 +43,13 @@ class MDScreen(MDLabel):
 
     def __init__(self):
         super(MDScreen, self).__init__()
-    
-        
+
+
 class TruckAppG(MDApp):
-    
-    def change_screen(self, name):
-        screen_manager.current = name 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.dialog = None 
+        self.sound = SoundLoader.load('data/sound_04683.mp3')  # Завантажуємо звуковий файл
     
     def on_start(self):
         host = 'localhost'
@@ -65,7 +68,94 @@ class TruckAppG(MDApp):
         # Schedule interval for updating the UI
         Clock.schedule_interval(self.gat_text, 1)
         Clock.schedule_interval(self.response, 1)
+
+    def show_dialog(self):
+        if self.dialog:
+            self.dialog.dismiss()
+        self.dialog = MDDialog(
+            text="Za niedułogo rozpocznieć się załadunek \ rozładunek",
+            auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
+            buttons=[
+                MDFlatButton(
+                    text="Close", 
+                    on_release=self.close_dialog
+                )
+            ],
+        )
+        self.dialog.open()
+        if self.sound:
+            self.sound.play()  # Відтворюємо звук
+
+    def show_dialog1(self):
+        if self.dialog:
+            self.dialog.dismiss()
+        self.dialog = MDDialog(
+            text="Załadunek/ rozładunek w trakcie- brak możliwości zamknięcia komunikatu",
+            auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
+        )
+        self.dialog.open()
+        if self.sound:
+            self.sound.play()  # Відтворюємо звук
+
+    def show_dialog2(self):
+        if self.dialog:
+            self.dialog.dismiss()
+        self.dialog = MDDialog(
+            text="Załadunek/ rozładunek zakończony, czekaj na dokumenty- brak możliwości zamknięcia komunikatu",
+            auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
+        )
+        self.dialog.open()
+        if self.sound:
+            self.sound.play()  # Відтворюємо звук
+
+    def show_dialog3(self):
+        if self.dialog:
+            self.dialog.dismiss()
+        self.dialog = MDDialog(
+            text="Dokumenty gotowe do odbioru- możliwość zamknięcia",
+            auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
+            buttons=[
+                MDFlatButton(
+                    text="Close", 
+                    on_release=self.close_dialog
+                )
+            ],
+        )
+        self.dialog.open()
+        if self.sound:
+            self.sound.play()  # Відтворюємо звук
+
+
+
+    def close_dialog(self, *args):
+        self.dialog.dismiss()
+
+    def receive_messages(self):
+        while not self.stop_event.is_set():
+            try:
+                data = self.client.recv(1024)
+                if not data:
+                    # If no data received, exit the loop
+                    break
+                message = data.decode('utf-8')
+                self.process_server_message(message)
+                #print("Received message:", message)  # Debugging statement
+                self.root.new_message = message  # Set the new message in the UI
+                self.autoscroll()
+            except Exception as e:
+                print(f"Error receiving messages: {e}")
+                break
     
+    @mainthread
+    def process_server_message(self, message):
+        #print("Received server message:", message)  # Додайте цей рядок для виводу повідомлення
+        if "@admin: #LOAD" in message:
+            self.show_dialog1()
+        elif "@admin: #END" in message:
+            self.show_dialog2()
+        elif "@admin: #DOC" in message:
+            self.show_dialog3()
+
 
     def autoscroll(self):
         scroll_distance = 100
@@ -82,7 +172,7 @@ class TruckAppG(MDApp):
         screen_manager.add_widget(Builder.load_file("Chats.kv"))
         screen_manager.add_widget(Builder.load_file("Camera.kv"))
         return screen_manager
-    
+
     def chip_callback(self, chip_number):
         screen_check = screen_manager.get_screen('check')
         chip_attribute_name = f"chip_{chip_number}"
@@ -137,20 +227,6 @@ class TruckAppG(MDApp):
                 self.client.send(driver.encode('utf-8'))
             except Exception as e:
                 print(f"Error sending message to the server: {e}")
-
-    def receive_messages(self):
-        while not self.stop_event.is_set():
-            try:
-                data = self.client.recv(1024)
-                if not data:
-                    # If no data received, exit the loop
-                    break
-                message = data.decode('utf-8')
-                self.root.new_message = message  # Set the new message in the UI
-                self.autoscroll()
-            except Exception as e:
-                print(f"Error receiving messages: {e}")
-                break
 
     def response(self, *args):
         # Update the UI on the main thread
