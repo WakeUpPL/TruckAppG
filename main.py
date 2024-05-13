@@ -52,6 +52,7 @@ class TruckAppG(MDApp):
         self.sound = SoundLoader.load('data/sound_04683.mp3')  # Завантажуємо звуковий файл
     
     def on_start(self):
+         # host = '91.207.60.55'
         host = 'localhost'
         port = 5555
 
@@ -73,6 +74,7 @@ class TruckAppG(MDApp):
         if self.dialog:
             self.dialog.dismiss()
         self.dialog = MDDialog(
+            title = "ADMINISTARTION",
             text="Za niedułogo rozpocznieć się załadunek \ rozładunek",
             auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
             buttons=[
@@ -90,6 +92,7 @@ class TruckAppG(MDApp):
         if self.dialog:
             self.dialog.dismiss()
         self.dialog = MDDialog(
+            title = "ADMINISTARTION",
             text="Załadunek/ rozładunek w trakcie- brak możliwości zamknięcia komunikatu",
             auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
         )
@@ -101,6 +104,7 @@ class TruckAppG(MDApp):
         if self.dialog:
             self.dialog.dismiss()
         self.dialog = MDDialog(
+            title = "ADMINISTARTION",
             text="Załadunek/ rozładunek zakończony, czekaj na dokumenty- brak możliwości zamknięcia komunikatu",
             auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
         )
@@ -112,6 +116,7 @@ class TruckAppG(MDApp):
         if self.dialog:
             self.dialog.dismiss()
         self.dialog = MDDialog(
+            title = "ADMINISTARTION",
             text="Dokumenty gotowe do odbioru- możliwość zamknięcia",
             auto_dismiss=False,  # Додаємо параметр auto_dismiss=False
             buttons=[
