@@ -9,35 +9,55 @@ from kivy.core.text import LabelBase
 from kivymd.uix.label import MDLabel
 from kivy.properties import StringProperty, NumericProperty
 from kivy.uix.camera import Camera
+from kivy.graphics.texture import Texture
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.screen import MDScreen
 from kivy.clock import mainthread
 from kivy.core.audio import SoundLoader
+from android.permissions import request_permissions, Permission
+
+
 
 import time
 import re
 import socket
 import threading
 
+request_permissions([
+    Permission.INTERNET,
+    Permission.CAMERA,
+    Permission.WRITE_EXTERNAL_STORAGE,
+    Permission.READ_EXTERNAL_STORAGE
+])
+
+
 class CameraScreen(Screen):
-    def take_picture(self):
+    def on_enter(self):
+        self.ids.camera.play = True
+
+    def on_leave(self):
+        self.ids.camera.play = False
+
+    def capture_photo(self):
         camera = self.ids.camera
-        timenow = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png(f"IMG_{timenow}.png")
+        timestr = time.strftime("%Y%m%d_%H%M%S")
+        camera.export_to_png(f"photo_{timestr}.png")
+        print(f"Photo saved as photo_{timestr}.png")
 
 class Command(MDLabel):
     text = StringProperty()
     size_hint_x = NumericProperty()
     halign = StringProperty()
-    font_size = 28
+    font_size = 38
 
 class Response(MDLabel):
     text = StringProperty()
     size_hint_x = NumericProperty()
     halign = StringProperty()
-    font_size = 28
+    font_size = 38
 
 class MDScreen(MDLabel):
 
@@ -48,12 +68,13 @@ class MDScreen(MDLabel):
 class TruckAppG(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        
         self.dialog = None 
         self.sound = SoundLoader.load('data/sound_04683.mp3')  # Завантажуємо звуковий файл
-    
+
     def on_start(self):
-         # host = '91.207.60.55'
-        host = 'localhost'
+        host = '91.207.60.55'
+        #host = 'localhost'
         port = 5555
 
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -143,7 +164,7 @@ class TruckAppG(MDApp):
                     # If no data received, exit the loop
                     break
                 message = data.decode('utf-8')
-                self.process_server_message(message)
+                #self.s(message)
                 #print("Received message:", message)  # Debugging statement
                 self.root.new_message = message  # Set the new message in the UI
                 self.autoscroll()
