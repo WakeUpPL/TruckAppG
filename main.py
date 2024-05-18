@@ -19,7 +19,7 @@ from kivy.clock import mainthread
 from kivy.core.audio import SoundLoader
 from android.permissions import request_permissions, Permission
 
-
+#df
 
 import time
 import re
