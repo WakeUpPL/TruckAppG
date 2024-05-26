@@ -17,7 +17,7 @@ from kivymd.uix.button import MDFlatButton
 from kivymd.uix.screen import MDScreen
 from kivy.clock import mainthread
 from kivy.core.audio import SoundLoader
-from android.permissions import request_permissions, Permission
+#from android.permissions import request_permissions, Permission
 
 #df
 
@@ -26,12 +26,12 @@ import re
 import socket
 import threading
 
-request_permissions([
-    Permission.INTERNET,
-    Permission.CAMERA,
-    Permission.WRITE_EXTERNAL_STORAGE,
-    Permission.READ_EXTERNAL_STORAGE
-])
+#request_permissions([
+#    Permission.INTERNET,
+#    Permission.CAMERA,
+#    Permission.WRITE_EXTERNAL_STORAGE,
+#    Permission.READ_EXTERNAL_STORAGE
+#])
 
 
 class CameraScreen(Screen):
